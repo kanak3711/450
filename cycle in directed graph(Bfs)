@@ -1,0 +1,66 @@
+//Kans algorithhm
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+class Solution {
+  public:
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int v, vector<int> adj[]) {
+        // code here
+        queue<int> q;
+	    vector<int> ind(v,0);
+	    vector<int> ans;
+	    int cnt=0;
+	    for(int i=0;i<v;i++)
+	    {
+	        for(auto k:adj[i])
+            {
+                ind[k]++;
+            }
+	    }
+	    for(int i=0;i<v;i++)
+	    if(ind[i]==0)
+	    {q.push(i);cnt++;}
+	    while(!q.empty())
+	    {
+	        ans.push_back(q.front());
+	        int u=q.front();
+	        q.pop();
+	        for(auto k:adj[u])
+            {
+                ind[k]--;
+                if(ind[k]==0)
+                {q.push(k);cnt++;}
+            }
+	    }
+	    return !(cnt==v);
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+
+    int t;
+    cin >> t;
+    while (t--) {
+        int V, E;
+        cin >> V >> E;
+
+        vector<int> adj[V];
+
+        for (int i = 0; i < E; i++) {
+            int u, v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+        }
+
+        Solution obj;
+        cout << obj.isCyclic(V, adj) << "\n";
+    }
+
+    return 0;
+}
+  // } Driver Code Ends

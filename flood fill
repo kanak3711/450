@@ -1,0 +1,48 @@
+class Solution {
+public:
+        bool isInside(int x, int y, int N,int M)
+{
+    if (x >= 0 && x <N && y >= 0 && y < M)
+        return true;
+    return false;
+}
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        
+        int n=image.size(),m=image[0].size(),i,j;
+        bool visit[n][m];
+        for (int i = 0; i <n; i++)
+        for (int j = 0; j <m; j++)
+            visit[i][j] = false;
+        int pcol=image[sr][sc];
+        queue<int> x;
+        queue<int> y;
+	    image[sr][sc]=newColor;
+         visit[sr][sc]=true;
+        int dx[] = { -1,1, 0,0};
+        int dy[] = { 0, 0, 1, -1};
+        x.push(sr);
+        y.push(sc);
+        
+        while(x.size()>0)
+        {
+            int xx=x.front();
+            x.pop();
+            int yy=y.front();
+            y.pop();
+          
+            
+                for(int i=0;i<4;i++)
+                {
+                    if (isInside(xx+dx[i],yy+dy[i], n,m) && !visit[xx+dx[i]][yy+dy[i]]&&image[xx+dx[i]][yy+dy[i]]==pcol)
+                   { visit[xx+dx[i]][yy+dy[i]]=true;
+                    if(image[xx+dx[i]][yy+dy[i]]==pcol)
+                        image[xx+dx[i]][yy+dy[i]]=newColor;
+                    x.push(xx+dx[i]);
+                    y.push(yy+dy[i]);
+                    }
+                }
+            
+        }
+        return image;
+    }
+};

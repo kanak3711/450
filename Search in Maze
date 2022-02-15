@@ -1,0 +1,64 @@
+// Initial template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+// User function template for C++
+
+class Solution{
+    public:
+    void solve(vector<string>& ans,vector<vector<int>> &m,string s,int u,int v )
+    {
+        if(u==m.size()-1&&v==m.size()-1)
+        {
+            ans.push_back(s);return;
+        }
+        int n=m.size();
+        if(u>=0&&u<n && v>=0&&v<n && m[u][v]==1)
+        {
+             m[u][v]=0;
+            solve(ans,m,s+"D",u+1,v);
+            solve(ans,m,s+"L",u,v-1);
+            solve(ans,m,s+"R",u,v+1);
+            solve(ans,m,s+"U",u-1,v);
+            m[u][v]=1;
+        }
+    }
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        // Your code goes here
+        vector<string> ans;
+        if(m[0][0]==0|| m[n-1][n-1]==0)return ans;
+        solve(ans,m,"",0,0);
+        return ans;
+    }
+};
+
+    
+
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> m(n, vector<int> (n,0));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                cin >> m[i][j];
+            }
+        }
+        Solution obj;
+        vector<string> result = obj.findPath(m, n);
+        if (result.size() == 0)
+            cout << -1;
+        else
+            for (int i = 0; i < result.size(); i++) cout << result[i] << " ";
+        cout << endl;
+    }
+    return 0;
+}  // } Driver Code Ends

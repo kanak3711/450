@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        map<string,bool> mp;
+        for(int i=0;i<wordList.size();i++)
+        {
+            mp[wordList[i]]=false;  
+        }
+
+        if(mp.find(endWord)==mp.end()){
+            return 0;  
+        }
+        queue<string>d;
+        d.push(beginWord);
+        mp[beginWord]=true;
+        int ans=1; 
+        while(d.size()!=0){
+            int size=d.size();
+            
+            while(size--){
+                string temp=d.front();
+                d.pop(); 
+                if(temp==endWord){
+                    return ans;  
+                }
+                wordmatch(mp,temp,d); 
+				
+            }
+            ans++;
+        }
+		return 0; 
+
+    }
+    void wordmatch(map<string,bool>&mp,string temp,queue<string> &d){
+	
+        for(int i=0;i<temp.length();i++)
+        {   string lm=temp;
+            for(int j=0;j<26;j++)
+            {
+                temp[i]='a'+j; // [a...z]
+                if(mp.find(temp)!=mp.end() && mp[temp]==false){  
+                    mp[temp]=true;  
+                    d.push(temp);
+                }
+            }
+            temp=lm;
+        }
+
+    }
+};

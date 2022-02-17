@@ -1,0 +1,114 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution
+{
+	public:
+	//Function to find number of strongly connected components in the graph.
+	void dfs(int v, vector<int> adj[],int u,vector<int> &vis,stack<int> &s)
+    {
+        
+        if(vis[u]!=-1)
+        return;
+        vis[u]=1;
+        for(auto k:adj[u])
+        {
+            if(vis[k]==-1)
+              dfs(v,adj,k,vis,s);
+        }
+        s.push(u);
+        
+    }
+	vector<int> topoSort(int v, vector<int> adj[]) 
+	{
+	    // code here
+	    stack<int> s;
+	    vector<int> vis(v,-1);
+	    vector<int> ans;
+	    for(int i=0;i<v;i++)
+	    {
+	        if(vis[i]==-1)
+	        {
+	            dfs(v,adj,i,vis,s);
+	        }
+	    }
+	    while(!s.empty())
+	    {
+	        ans.push_back(s.top());s.pop();
+	    }
+	    return ans;
+	}
+
+
+	void rdfs(int i,vector<int> &vis,vector<int> adj[])
+    {
+        if(vis[i]==1)
+        return;
+        vis[i]=1;
+        //ans.push_back(i);
+        for(auto k:adj[i])
+        {
+            rdfs(k,vis,adj);
+        }
+    }
+    int kosaraju(int V, vector<int> adj[])
+    {
+        //code here
+        vector<int> topo=topoSort(V,adj);
+        vector<int> adjj[V];
+        
+        for(int i=0;i<V;i++)
+	    {
+	        for(auto j:adj[i])
+	        {
+	            adjj[j].push_back(i);
+	        }
+	    }
+	    vector<int> vis(V,0);
+	    int cnt=0;
+	    //cout<<topo.size();
+         for(int i=0;i<topo.size();i++)
+         {
+             //cout<<topo[i];
+             if(vis[topo[i]]==0)
+             {rdfs(topo[i],vis,adjj);cnt++;}
+         }
+         
+         return cnt;
+    }
+};
+
+// { Driver Code Starts.
+
+
+int main()
+{
+    
+    int t;
+    cin >> t;
+    while(t--)
+    {
+    	int V, E;
+    	cin >> V >> E;
+
+    	vector<int> adj[V];
+
+    	for(int i = 0; i < E; i++)
+    	{
+    		int u, v;
+    		cin >> u >> v;
+    		adj[u].push_back(v);
+    	}
+
+    	Solution obj;
+    	cout << obj.kosaraju(V, adj) << "\n";
+    }
+
+    return 0;
+}
+
+  // } Driver Code Ends

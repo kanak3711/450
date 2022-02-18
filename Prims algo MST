@@ -1,0 +1,94 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+
+class Solution
+{
+	public:
+	
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        // code here
+        
+        vector<int> par(V,-1);
+            queue<int> q;
+        	q.push(0);
+        	vector<int> vis(V,-1);
+        	vector<int> key(V,INT_MAX);
+        	vis[0]=1;
+        	key[0]=0;
+        	 int pos=1;
+        	 int ans=0;
+        	 
+        	while(q.size()>0)
+        	{
+            	    int curr=q.front();q.pop();
+            	   
+            	    for(auto i:adj[curr])
+            	    {
+            	        if(vis[i[0]]==-1 && key[i[0]]>i[1])
+            	        {
+            	            key[i[0]]=i[1];//par[i[0]]=curr;
+            	           
+            	        }
+            	    }
+            	    pos=INT_MAX;
+            	    int val=INT_MAX;
+            	    for(int i=0;i<V;i++)
+            	    {
+            	        if(key[i]<val&&vis[i]==-1)
+            	        {
+            	            pos=i;
+            	            val=key[i];
+            	        }
+            	    }
+            	    if(pos!=INT_MAX)
+            	    {
+            	        q.push(pos);
+            	        ans+=val;
+            	        vis[pos]=1;
+            	    }
+        	   }
+    	
+    	return ans;
+    	
+    	
+    	
+    }
+};
+
+// { Driver Code Starts.
+
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--) {
+        int V, E;
+        cin >> V >> E;
+        vector<vector<int>> adj[V];
+        int i=0;
+        while (i++<E) {
+            int u, v, w;
+            cin >> u >> v >> w;
+            vector<int> t1,t2;
+            t1.push_back(v);
+            t1.push_back(w);
+            adj[u].push_back(t1);
+            t2.push_back(u);
+            t2.push_back(w);
+            adj[v].push_back(t2);
+        }
+        
+        Solution obj;
+    	cout << obj.spanningTree(V, adj) << "\n";
+    }
+
+    return 0;
+}
+
+  // } Driver Code Ends

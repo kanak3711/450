@@ -1,3 +1,7 @@
+*/ toposot stack
+   dist array {INF,....}
+   pop ech and relax all its adjacent
+  */
 #include <bits/stdc++.h> 
 #define INF INT_MAX 
 using namespace std; 
